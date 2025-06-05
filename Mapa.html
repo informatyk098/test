@@ -95,6 +95,7 @@
             top: -25px;
             white-space: nowrap;
             text-shadow: 1px 1px 3px #fff;
+            transition: font-size 0.2s;
         }
         #infoBox {
             display: none;
@@ -170,6 +171,16 @@
             #infoBox {
                 padding: 14px 2vw 14px 2vw;
                 min-width: unset;
+            }
+            .label {
+                font-size: 0.56em;
+                padding: 1px 3px;
+            }
+        }
+        @media (max-width: 420px) {
+            .label {
+                font-size: 0.40em;
+                padding: 0px 2px;
             }
         }
     </style>
@@ -268,14 +279,10 @@
             const wrap = document.getElementById('imgWrap');
             wrap.querySelectorAll('.marker').forEach(e => e.remove());
             const img = document.getElementById('elektrownieimg');
-            const rect = img.getBoundingClientRect();
-            const w = img.offsetWidth;
-            const h = img.offsetHeight;
             markersPct.forEach(m => {
-
                 const marker = document.createElement('div');
                 marker.className = 'marker';
-                marker.style.left = `calc(${m.leftPct}% - 10px)`; // - połowa szerokości
+                marker.style.left = `calc(${m.leftPct}% - 10px)`;
                 marker.style.top = `calc(${m.topPct}% - 10px)`;
                 marker.style.width = '20px';
                 marker.style.height = '20px';
