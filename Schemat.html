@@ -82,7 +82,7 @@
       color: #1d2950;
       border: 2.5px solid #fca326;
       border-radius: 8px;
-      padding: 16px 32px 16px 32px;
+      padding: 16px 32px;
       font-size: 1.14em;
       box-shadow: 0 4px 28px #fca32644;
       z-index: 20;
@@ -100,20 +100,25 @@
       pointer-events: auto;
     }
     .info-box.visible {
-      display: block;
-      position: fixed;
+      display: flex !important;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: fixed !important;
       left: 50%;
       top: 50%;
-      max-width: 98vw;
-      width: 98vw;
+      max-width: 98vw !important;
+      width: 95vw !important;
       min-width: 0;
-      transform: translate(-50%,-50%);
-      padding: 18px 4vw 18px 4vw;
-      font-size: 1.09em;
+      min-height: unset;
+      transform: translate(-50%,-50%) !important;
+      padding: 18px 3vw 18px 3vw !important;
+      font-size: 1.01em !important;
       z-index: 1003;
       word-break: break-word;
-      overflow: auto;
-      max-height: 85vh;
+      overflow-y: auto;
+      overflow-x: visible;
+      max-height: 88vh;
     }
     .info-backdrop {
       display: none;
@@ -150,17 +155,16 @@
     }
     @media (max-width: 900px) {
       .canvas-box { max-width: 99vw; }
-      .info-box, .info-box.visible { max-width: 99vw; font-size: 1.02em; padding: 10px 3vw 10px 3vw;}
     }
     @media (max-width: 600px) {
       .canvas-box { min-height: 90px; padding: 0; }
       #sideRectCanvas { min-height: 90px; }
-      .info-box, .info-box.visible { font-size: 0.98em; padding: 8px 2vw 8px 2vw; max-width: 99vw;}
+      .info-box, .info-box.visible { font-size: 0.96em !important; padding: 8px 2vw 8px 2vw !important; max-width: 99vw !important; width: 98vw !important;}
       h1 { font-size: 1.13em; margin-top: 14px; }
       .subtitle { font-size: 1em; margin-bottom: 13px; }
     }
     @media (max-width: 400px) {
-      .info-box, .info-box.visible { font-size: 0.83em; }
+      .info-box, .info-box.visible { font-size: 0.83em !important; }
       h1 { font-size: 1em; }
     }
   </style>
@@ -622,6 +626,11 @@
       box.style.opacity = '0.97';
       highlightedShape = whichShape;
       drawAll();
+      setTimeout(() => {
+        if (window.innerWidth < 700) {
+          box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 20);
     }
 
     function hideInfoBox() {
