@@ -24,7 +24,8 @@
       font-weight: 600;
       text-align: center;
       letter-spacing: 1px;
-      font-size: 2em;
+      max-width: 98vw;
+      word-break: break-word;
     }
     .subtitle {
       color: #fca326;
@@ -34,6 +35,8 @@
       font-weight: 500;
       letter-spacing: 0.5px;
       text-shadow: 1px 1px 6px #0006;
+      max-width: 96vw;
+      word-break: break-word;
     }
     .canvas-box {
       box-sizing: border-box;
@@ -80,18 +83,21 @@
       border: 2.5px solid #fca326;
       border-radius: 8px;
       padding: 16px 32px 16px 32px;
-      font-size: 1.18em;
+      font-size: 1.14em;
       box-shadow: 0 4px 28px #fca32644;
       z-index: 20;
       opacity: 0.97;
       font-weight: 500;
       display: none;
       min-width: 190px;
-      max-width: 85vw;
+      max-width: 92vw;
       text-align: center;
       animation: fadeinInfo 0.25s;
       word-break: break-word;
       overflow-wrap: break-word;
+      line-height: 1.35;
+      box-sizing: border-box;
+      pointer-events: auto;
     }
     @keyframes fadeinInfo {
       from { opacity: 0; transform: translate(-50%,-53%) scale(0.92);}
@@ -117,24 +123,24 @@
     }
     @media (max-width: 900px) {
       .canvas-box { max-width: 99vw; }
-      h1 { font-size: 1.2em; }
+      .info-box { max-width: 98vw; font-size: 1.02em; padding: 10px 3vw 10px 3vw;}
     }
     @media (max-width: 600px) {
       .canvas-box { min-height: 90px; padding: 0; }
       #sideRectCanvas { min-height: 90px; }
-      .info-box { font-size: 0.96em; padding: 11px 2vw 11px 2vw;}
+      .info-box { font-size: 0.97em; padding: 8px 2vw 8px 2vw; max-width: 99vw;}
       h1 { font-size: 1.13em; margin-top: 14px; }
       .subtitle { font-size: 1em; margin-bottom: 13px; }
     }
     @media (max-width: 400px) {
-      .info-box { font-size: 0.81em; }
+      .info-box { font-size: 0.83em; }
       h1 { font-size: 1em; }
     }
   </style>
 </head>
 <body>
-  <h1>Schemat siłowni parowej </h1>
-  <div class="subtitle">Klikini na symbol w schemacie i dowiedz się jaką pełni funkcję dany element.</div>
+  <h1>Schemat siłowni parowej</h1>
+  <div class="subtitle">Kliknij na symbol w schemacie i dowiedz się jaką pełni funkcję dany element.</div>
   <div class="canvas-box">
     <canvas id="sideRectCanvas" width="900" height="540"></canvas>
     <div id="infoBox" class="info-box">
@@ -578,6 +584,11 @@
       box.style.opacity = '0.97';
       highlightedShape = whichShape;
       drawAll();
+      setTimeout(() => {
+        if (window.innerWidth < 700) {
+          box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 20);
     }
 
     document.getElementById('infoClose').onclick = function() {
