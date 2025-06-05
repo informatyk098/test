@@ -99,6 +99,33 @@
       box-sizing: border-box;
       pointer-events: auto;
     }
+    .info-box.visible {
+      display: block;
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      max-width: 98vw;
+      width: 98vw;
+      min-width: 0;
+      transform: translate(-50%,-50%);
+      padding: 18px 4vw 18px 4vw;
+      font-size: 1.09em;
+      z-index: 1003;
+      word-break: break-word;
+      overflow: auto;
+      max-height: 85vh;
+    }
+    .info-backdrop {
+      display: none;
+    }
+    .info-backdrop.visible {
+      display: block;
+      position: fixed;
+      left: 0; top: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.26);
+      z-index: 1002;
+      pointer-events: auto;
+    }
     @keyframes fadeinInfo {
       from { opacity: 0; transform: translate(-50%,-53%) scale(0.92);}
       to   { opacity: 0.97; transform: translate(-50%,-50%) scale(1);}
@@ -123,17 +150,17 @@
     }
     @media (max-width: 900px) {
       .canvas-box { max-width: 99vw; }
-      .info-box { max-width: 98vw; font-size: 1.02em; padding: 10px 3vw 10px 3vw;}
+      .info-box, .info-box.visible { max-width: 99vw; font-size: 1.02em; padding: 10px 3vw 10px 3vw;}
     }
     @media (max-width: 600px) {
       .canvas-box { min-height: 90px; padding: 0; }
       #sideRectCanvas { min-height: 90px; }
-      .info-box { font-size: 0.97em; padding: 8px 2vw 8px 2vw; max-width: 99vw;}
+      .info-box, .info-box.visible { font-size: 0.98em; padding: 8px 2vw 8px 2vw; max-width: 99vw;}
       h1 { font-size: 1.13em; margin-top: 14px; }
       .subtitle { font-size: 1em; margin-bottom: 13px; }
     }
     @media (max-width: 400px) {
-      .info-box { font-size: 0.83em; }
+      .info-box, .info-box.visible { font-size: 0.83em; }
       h1 { font-size: 1em; }
     }
   </style>
@@ -147,6 +174,7 @@
       <button class="info-close" id="infoClose" title="Zamknij">×</button>
       <span id="infoMsg"></span>
     </div>
+    <div id="infoBackdrop" class="info-backdrop"></div>
   </div>
   <script>
     const BASE_W = 900, BASE_H = 540;
@@ -578,24 +606,37 @@
 
     function showInfo(msg, whichShape) {
       const box = document.getElementById('infoBox');
+      const backdrop = document.getElementById('infoBackdrop');
       const msgSpan = document.getElementById('infoMsg');
       msgSpan.textContent = msg;
-      box.style.display = 'block';
+      if(window.innerWidth < 700) {
+        box.classList.add('visible');
+        backdrop.classList.add('visible');
+        document.body.style.overflow = "hidden";
+      } else {
+        box.classList.remove('visible');
+        backdrop.classList.remove('visible');
+        document.body.style.overflow = "";
+        box.style.display = 'block';
+      }
       box.style.opacity = '0.97';
       highlightedShape = whichShape;
       drawAll();
-      setTimeout(() => {
-        if (window.innerWidth < 700) {
-          box.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-      }, 20);
     }
 
-    document.getElementById('infoClose').onclick = function() {
-      document.getElementById('infoBox').style.display = 'none';
+    function hideInfoBox() {
+      const box = document.getElementById('infoBox');
+      const backdrop = document.getElementById('infoBackdrop');
+      box.classList.remove('visible');
+      backdrop.classList.remove('visible');
+      box.style.display = 'none';
+      document.body.style.overflow = "";
       highlightedShape = null;
       drawAll();
-    };
+    }
+
+    document.getElementById('infoClose').onclick = hideInfoBox;
+    document.getElementById('infoBackdrop').onclick = hideInfoBox;
 
     canvas.addEventListener('click', function(e) {
       const rawScale = Math.min(canvas.offsetWidth / BASE_W, canvas.offsetHeight / BASE_H);
