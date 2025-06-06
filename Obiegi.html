@@ -2,411 +2,718 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
-  <title>Obieg</title>
+  <title>Schemat</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
       background: #0c1a24;
       color: #fff;
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Arial, sans-serif;
       margin: 0;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: flex-start;
     }
     h1 {
       color: #fff;
-      margin-top: 80px;
-      margin-bottom: 12px;
+      margin-top: 38px;
+      margin-bottom: 10px;
       text-shadow: 2px 2px 8px #000a;
-      width: 100%;
+      font-weight: 600;
       text-align: center;
+      letter-spacing: 1px;
+      max-width: 98vw;
+      word-break: break-word;
     }
-    .main-flex {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: flex-start;
-      gap: 32px;
-      width: 100%;
-      max-width: 1400px;
-      margin-bottom: 24px;
-    }
-    .canvas-col {
-      flex: 0 0 auto;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      margin-left: -90px;
-      padding-left: 200px;
-      margin-top: 80px;
+    .subtitle {
+      color: #fca326;
+      margin-bottom: 18px;
+      font-size: 1.18em;
+      text-align: center;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      text-shadow: 1px 1px 6px #0006;
+      max-width: 96vw;
+      word-break: break-word;
     }
     .canvas-box {
-      margin-bottom: 0;
-      display: none;
-      width: 520px;
-      max-width: 90vw;
-      height: 340px;
-      max-height: 60vw;
-    }
-    .canvas-box.active {
-      display: block;
-    }
-    .controls {
-      display: flex;
-      gap: 18px;
-      margin-bottom: 0;
-      margin-top: 24px;
-      justify-content: center;
-      width: 100%;
-    }
-    .controls button {
-      background: #ff9900;
-      color: #fff;
-      border: none;
-      border-radius: 9px;
-      padding: 9px 22px;
-      font-size: 1.08em;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.2s;
-      box-shadow: 0 2px 8px #0004;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .controls button.active, .controls button:hover {
-      background: #ffb84d;
-      color: #232834;
-    }
-    canvas {
-      background: #fff;
-      border: 2px solid #ff9900;
-      margin: 0;
-      border-radius: 18px;
-      box-shadow: 0 4px 24px #0005;
-      display: block;
-      width: 100% !important;
-      height: 100% !important;
-      max-width: 100%;
-      max-height: 100%;
-    }
-    .text-col {
-      flex: 0 0 800px;
-      min-width: 200px;
-      max-width: 800px;
-      margin-top: 55px;
-      margin-left: -5px;
-      color: #fde4b0;
-      font-size: 1.08em;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      border-radius: 13px;
-      padding: 20px 36px 18px 36px;
-      line-height: 1.44;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      text-align: center;
-      height: 340px;
-      margin-right: 10px;
-      width: 100%;
       box-sizing: border-box;
+      margin: 0 auto;
+      background: #f8fafc;
+      border: 2px dashed #b7c7de;
+      border-radius: 18px;
+      box-shadow: 0 6px 28px #0002;
+      width: 97vw;
+      max-width: 920px;
+      aspect-ratio: 15/9;
+      height: auto;
+      min-height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin-bottom: 2vw;
+      margin-top: 0;
+      overflow: hidden;
+      touch-action: manipulation;
     }
-    .text-static {
-      font-size: 1em;
-      color: #ffb84d;
-      margin-bottom: 20px;
+    #sideRectCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      position: absolute;
+      left: 0; top: 0;
+      z-index: 2;
+      cursor: pointer;
+      aspect-ratio: 15/9;
+      background: transparent;
+      outline: none;
+      border: none;
+      touch-action: manipulation;
     }
-    .text-dynamic ul {
-        margin: 0;
-        padding: 0;
-    }
-    .desc-li {
-        margin-top: 0;   
-        color: #fff; 
-        font-size: 0.85em;   
-        margin-bottom: 7px;
-        padding: 0;
-    }
-    .comic-footer {
-      width: 100vw;
+    .info-box {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%,-50%);
+      background: #fff;
+      color: #1d2950;
+      border: 2.5px solid #fca326;
+      border-radius: 8px;
+      padding: 16px 32px;
+      font-size: 1.14em;
+      box-shadow: 0 4px 28px #fca32644;
+      z-index: 20;
+      opacity: 0.97;
+      font-weight: 500;
+      display: none;
+      min-width: 190px;
+      max-width: 92vw;
       text-align: center;
-      color: #ffb547;
-      font-size: 0.7em;
-      margin-top: 30px;
-      margin-bottom: 10px;
-      letter-spacing: 0.2px;
-      padding-bottom: 18px;
+      animation: fadeinInfo 0.25s;
+      word-break: break-word;
+      overflow-wrap: break-word;
+      line-height: 1.35;
+      box-sizing: border-box;
+      pointer-events: auto;
     }
-     .comic-footer a {
-      color: #ffb547;
-      text-decoration: underline; 
+    .info-box.visible {
+      display: flex !important;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: fixed !important;
+      left: 50%;
+      top: 50%;
+      max-width: 98vw !important;
+      width: 95vw !important;
+      min-width: 0;
+      min-height: unset;
+      transform: translate(-50%,-50%) !important;
+      padding: 18px 3vw 18px 3vw !important;
+      font-size: 1.01em !important;
+      z-index: 1003;
+      word-break: break-word;
+      overflow-y: auto;
+      overflow-x: visible;
+      max-height: 88vh;
     }
-    @media (max-width: 1400px) {
-      .main-flex { max-width: 100vw; }
-      .text-col { max-width: 98vw; }
+    .info-backdrop {
+      display: none;
     }
-    @media (max-width: 1100px) {
-      .canvas-col { margin-left: 0; padding-left: 0; }
+    .info-backdrop.visible {
+      display: block;
+      position: fixed;
+      left: 0; top: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.26);
+      z-index: 1002;
+      pointer-events: auto;
+    }
+    @keyframes fadeinInfo {
+      from { opacity: 0; transform: translate(-50%,-53%) scale(0.92);}
+      to   { opacity: 0.97; transform: translate(-50%,-50%) scale(1);}
+    }
+    .info-close {
+      position: absolute;
+      right: 12px;
+      top: 8px;
+      font-size: 1.28em;
+      color: #fca326;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      line-height: 1;
+      font-weight: bold;
+      z-index: 22;
+      transition: color 0.15s;
+    }
+    .info-close:hover {
+      color: #c00;
     }
     @media (max-width: 900px) {
-      .main-flex { flex-direction: column; align-items: center; }
-      .canvas-col { align-items: center; margin-left: 0; padding-left: 0; margin-top: 24px; }
-      .text-col { margin-left: 0; margin-top: 30px; height: auto; max-width: 98vw; }
-      .canvas-box { width: 95vw; max-width: 95vw; height: 250px; max-height: 40vw; }
+      .canvas-box { max-width: 99vw; }
     }
     @media (max-width: 600px) {
-      h1 { font-size: 1.08em; margin-top: 30px; }
-      .main-flex { gap: 6px; }
-      .canvas-box { width: 98vw; max-width: 98vw; height: 170px; max-height: 30vw; }
-      .controls { gap: 7px; }
-      .controls button { font-size: 0.97em; padding: 7px 13px; }
-      .text-col { font-size: 0.93em; padding: 10px 2vw 9px 2vw; }
-      .text-static { margin-bottom: 10px; }
-      .desc-li { font-size: 0.73em; }
+      .canvas-box { min-height: 90px; padding: 0; }
+      #sideRectCanvas { min-height: 90px; }
+      .info-box, .info-box.visible { font-size: 0.96em !important; padding: 8px 2vw 8px 2vw !important; max-width: 99vw !important; width: 98vw !important;}
+      h1 { font-size: 1.13em; margin-top: 14px; }
+      .subtitle { font-size: 1em; margin-bottom: 13px; }
     }
-    @media (max-width: 420px) {
-      .text-col { font-size: 0.82em; }
-      .desc-li { font-size: 0.63em; }
-      .canvas-box { height: 120px; }
+    @media (max-width: 400px) {
+      .info-box, .info-box.visible { font-size: 0.83em !important; }
+      h1 { font-size: 1em; }
     }
   </style>
 </head>
 <body>
-  <h1>Obieg Rankine’a</h1>
-  <div class="main-flex">
-    <div class="canvas-col">
-      <div class="canvas-box active" id="boxTs">
-        <canvas id="canvasTs" width="520" height="340"></canvas>
-      </div>
-      <div class="canvas-box" id="boxPv">
-        <canvas id="canvasPv" width="520" height="340"></canvas>
-      </div>
-      <div class="controls">
-        <button id="btnTs" class="active" onclick="showPlot('Ts')">Wykres T-s</button>
-        <button id="btnPv" onclick="showPlot('Pv')">Wykres p-v</button>
-      </div>
+  <h1>Schemat siłowni parowej</h1>
+  <div class="subtitle">Kliknij na symbol w schemacie i dowiedz się jaką pełni funkcję dany element.</div>
+  <div class="canvas-box">
+    <canvas id="sideRectCanvas" width="900" height="540"></canvas>
+    <div id="infoBox" class="info-box">
+      <button class="info-close" id="infoClose" title="Zamknij">×</button>
+      <span id="infoMsg"></span>
     </div>
-    <div class="text-col">
-      <div class="text-static">
-        Przedstawione wykresy przedstawiają przebieg idealnego cyklu termodynamicznego w dwóch różnych układach współrzędnych: p–V (ciśnienie–objętość) oraz T–s (temperatura–entropia). Analiza cyklu w obu układach pozwala na pełniejsze zrozumienie procesów zachodzących w czasie pracy urządzeń cieplnych, takich jak turbiny, pompy, skraplacze czy kotły.
-      </div>
-      <div class="text-dynamic" id="textCol">
-        <ul style="list-style-type: none; text-align:left; display:inline-block; padding-left:0;">
-          <li class="desc-li">- Odcinek 1–2: Rozprężanie izentropowe – entropia stała, spadek temperatury (turbinia).</li>
-          <li class="desc-li">- Odcinek 2–3: Skraplanie izobaryczne – spadek temperatury przy stałym ciśnieniu (skraplacz).</li>
-          <li class="desc-li">- Odcinek 3–4: Sprężanie izentropowe – wzrost ciśnienia i temperatury przy stałej entropii (pompa).</li>
-          <li class="desc-li">- Odcinek 4–5: Ogrzewanie izobaryczne – wzrost temperatury przy stałym ciśnieniu (kocioł/parownik).</li>
-          <li class="desc-li">- Odcinek 5–6: Przegrzewanie pary – dalszy wzrost temperatury przy stałym ciśnieniu.</li>
-          <li class="desc-li">- Odcinek 6–1: Rozprężanie izobaryczne – powrót do punktu początkowego.</li>
-        </ul>
-      </div>
-    </div>
+    <div id="infoBackdrop" class="info-backdrop"></div>
   </div>
   <script>
-    function getPointsTs(ox, oy, axisW, axisH) {
-      return [
-        { x: ox + axisW * 0.88, y: oy - axisH * 0.95},
-        { x: ox + axisW * 0.88, y: oy - axisH * 0.12 },
-        { x: ox + axisW * 0.13, y: oy - axisH * 0.12 },
-        { x: ox + axisW * 0.13, y: oy - axisH * 0.23 },
-        { x: ox + axisW * 0.25, y: oy - axisH * 0.60 },
-        { x: ox + axisW * 0.77, y: oy - axisH * 0.60 },
-      ];
-    }
-    function drawDiagramTs(ctx) {
-      ctx.clearRect(0,0,520,340);
-      const ox = 60, oy = 270, axisW = 410, axisH = 200;
-      ctx.save();
-      ctx.strokeStyle = "#222";
-      ctx.lineWidth = 2.7;
-      ctx.beginPath();
-      ctx.moveTo(ox, oy + 35);
-      ctx.lineTo(ox, oy - axisH - 20);
-      ctx.moveTo(ox - 35, oy);
-      ctx.lineTo(ox + axisW + 35, oy);
-      ctx.stroke();
-      ctx.beginPath();
-      ctx.moveTo(ox, oy - axisH - 20);
-      ctx.lineTo(ox - 8, oy - axisH - 4);
-      ctx.moveTo(ox, oy - axisH - 20);
-      ctx.lineTo(ox + 8, oy - axisH - 4);
-      ctx.moveTo(ox + axisW + 35, oy);
-      ctx.lineTo(ox + axisW + 19, oy - 8);
-      ctx.moveTo(ox + axisW + 35, oy);
-      ctx.lineTo(ox + axisW + 19, oy + 8);
-      ctx.stroke();
-      ctx.font = "bold 26px Arial";
-      ctx.fillStyle = "#222";
-      ctx.fillText("T", ox - 25, oy - axisH - 30);
-      ctx.fillText("s", ox + axisW + 29, oy + 28);
-      ctx.restore();
+    const BASE_W = 900, BASE_H = 540;
+    const DRAWING_SCALE = 0.90;
+    const DRAWING_OFFSET_X = -35;
+    const DRAWING_OFFSET_Y = -30;
+    const canvas = document.getElementById('sideRectCanvas');
+    const ctx = canvas.getContext('2d');
+    let highlightedShape = null;
+    const offsetX = 90, offsetY = 36;
+    const rectWidth = 80, rectHeight = 140;
+    const rectX = offsetX, rectY = 120 + offsetY;
+    const deltaX = 130;
+    const trapShort = 77;
+    const trapLong = 148;
+    const trapHeight = 125;
+    const trapX = 700 - deltaX + offsetX, trapY = 220 + offsetY;
+    const A = {x: trapX, y: trapY - trapShort/2};
+    const B = {x: trapX, y: trapY + trapShort/2};
+    const C = {x: trapX + trapHeight, y: trapY + trapLong/2};
+    const D = {x: trapX + trapHeight, y: trapY - trapLong/2};
+    const rectW = 62;
+    const rectH = 110;
+    const radius = 22;
+    const downLineStartX = C.x;
+    const downLineStartY = C.y;
+    const connectX = downLineStartX;
+    const connectY = downLineStartY + 120;
+    const roundedRectX = connectX - rectW / 2;
+    const roundedRectY = connectY - rectH / 2;
+    const leftRectMidBottomX = rectX + rectWidth / 2;
+    const leftRectMidBottomY = rectY + rectHeight;
+    const circleCenterX = leftRectMidBottomX;
+    const circleCenterY = leftRectMidBottomY + 88;
+    const circleRadius = 26;
+    const circleBottomY = circleCenterY + circleRadius;
+    const circleLineLen = 120;
+    const middleRightX = (C.x + D.x) / 2;
+    const middleRightY = (C.y + D.y) / 2;
+    const sideLineLen = 80;
+    const circle2CenterX = middleRightX + sideLineLen;
+    const circle2CenterY = middleRightY;
+    const roundedRectMidBottomX = roundedRectX + rectW / 2;
+    const roundedRectMidBottomY = roundedRectY + rectH;
 
-      const pts = getPointsTs(ox, oy, axisW, axisH);
-      ctx.save();
-      ctx.lineWidth = 3.5;
-      ctx.strokeStyle = "#1791e5";
-      ctx.beginPath();
-      ctx.moveTo(pts[0].x, pts[0].y);
-      ctx.lineTo(pts[1].x, pts[1].y);
-      ctx.lineTo(pts[2].x, pts[2].y);
-      ctx.lineTo(pts[3].x, pts[3].y);
-      const ctrl54x = (pts[4].x + pts[3].x) / 2 + 25;
-      const ctrl54y = (pts[4].y + pts[3].y) / 2 - 25;
-      ctx.quadraticCurveTo(ctrl54x, ctrl54y, pts[4].x, pts[4].y);
-      ctx.lineTo(pts[5].x, pts[5].y);
-      ctx.lineTo(pts[0].x, pts[0].y);
-      ctx.stroke();
-      ctx.restore();
+    function drawAll() {
+      const rawScale = Math.min(canvas.width / BASE_W, canvas.height / BASE_H);
+      const scale = rawScale * DRAWING_SCALE;
+      const drawingW = BASE_W * scale, drawingH = BASE_H * scale;
+      let offsetLeft = (canvas.width - drawingW) / 2 + DRAWING_OFFSET_X * scale;
+      let offsetTop = (canvas.height - drawingH) / 2 + DRAWING_OFFSET_Y * scale;
+      ctx.setTransform(scale, 0, 0, scale, offsetLeft, offsetTop);
+      ctx.clearRect(0,0,BASE_W,BASE_H);
 
       ctx.save();
-      ctx.fillStyle = "#111";
-      for (let i = 0; i < pts.length; ++i) {
+      ctx.beginPath();
+      ctx.rect(rectX, rectY, rectWidth, rectHeight);
+      ctx.lineWidth = 3.2;
+      ctx.strokeStyle = (highlightedShape === 'leftRect') ? "#fca326" : "#639ad3";
+      ctx.fillStyle = (highlightedShape === 'leftRect') ? "#fff2dc" : "#e9f3fa";
+      ctx.shadowColor = (highlightedShape === 'leftRect') ? "#fca326bb" : "#b7c7de";
+      ctx.shadowBlur = (highlightedShape === 'leftRect') ? 22 : 10;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+      ctx.stroke();
+      ctx.restore();
+
+      ctx.save();
+      ctx.font = "bold 38px Arial";
+      ctx.fillStyle = "#15376e";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.globalAlpha = 0.82;
+      ctx.fillText("K", rectX + rectWidth/2, rectY + rectHeight/2);
+      ctx.globalAlpha = 1;
+      ctx.restore();
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(A.x, A.y);
+      ctx.lineTo(B.x, B.y);
+      ctx.lineTo(C.x, C.y);
+      ctx.lineTo(D.x, D.y);
+      ctx.closePath();
+      let grad = ctx.createLinearGradient(A.x, A.y, C.x, C.y);
+      grad.addColorStop(0, (highlightedShape === 'trapezoid') ? "#ffe8bc" : "#d3eaff");
+      grad.addColorStop(1, (highlightedShape === 'trapezoid') ? "#fca326" : "#5e89b2");
+      ctx.fillStyle = grad;
+      ctx.shadowColor = (highlightedShape === 'trapezoid') ? "#fca326bb" : "#a6c6e9";
+      ctx.shadowBlur = (highlightedShape === 'trapezoid') ? 22 : 10;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+      ctx.lineWidth = 3.2;
+      ctx.strokeStyle = (highlightedShape === 'trapezoid') ? "#fca326" : "#42699c";
+      ctx.stroke();
+      ctx.restore();
+
+      ctx.save();
+      ctx.font = "bold 38px Arial";
+      ctx.fillStyle = "#15376e";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.globalAlpha = 0.82;
+      let trapCenterX = (A.x + B.x + C.x + D.x) / 4;
+      let trapCenterY = (A.y + B.y + C.y + D.y) / 4;
+      ctx.fillText("T", trapCenterX, trapCenterY);
+      ctx.globalAlpha = 1;
+      ctx.restore();
+
+      const lineColor = "#2682c1";
+      const lineWidth = 4.5;
+      const shadowColor = "#b7c7de";
+      const shadowBlur = 3.2;
+      const topMidX = rectX + rectWidth / 2;
+      const topMidY = rectY;
+      const connectorY = Math.min(topMidY - 75, A.y - 75);
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(topMidX, topMidY);
+      ctx.lineTo(topMidX, connectorY);
+      ctx.strokeStyle = lineColor;
+      ctx.lineWidth = lineWidth;
+      ctx.shadowColor = shadowColor;
+      ctx.shadowBlur = shadowBlur;
+      ctx.stroke();
+      ctx.restore();
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(A.x, A.y);
+      ctx.lineTo(A.x, connectorY);
+      ctx.strokeStyle = lineColor;
+      ctx.lineWidth = lineWidth;
+      ctx.shadowColor = shadowColor;
+      ctx.shadowBlur = shadowBlur;
+      ctx.stroke();
+      ctx.restore();
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(topMidX, connectorY);
+      ctx.lineTo(A.x, connectorY);
+      ctx.strokeStyle = lineColor;
+      ctx.lineWidth = lineWidth;
+      ctx.shadowColor = shadowColor;
+      ctx.shadowBlur = shadowBlur;
+      ctx.stroke();
+      ctx.restore();
+      const joinLineMidX = (topMidX + A.x) / 2;
+      const joinLineMidY = connectorY;
+      drawArrowOnLine(ctx, joinLineMidX - 28, joinLineMidY, joinLineMidX + 28, joinLineMidY, 13, Math.PI/7, "#2682c1", lineWidth);
+
+      function roundRectVertical(ctx, x, y, w, h, r) {
         ctx.beginPath();
-        ctx.arc(pts[i].x, pts[i].y, 5, 0, 2 * Math.PI);
-        ctx.fill();
+        ctx.moveTo(x + r, y);
+        ctx.lineTo(x + w - r, y);
+        ctx.arcTo(x + w, y, x + w, y + r, r);
+        ctx.lineTo(x + w, y + h - r);
+        ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
+        ctx.lineTo(x + r, y + h);
+        ctx.arcTo(x, y + h, x, y + h - r, r);
+        ctx.lineTo(x, y + r);
+        ctx.arcTo(x, y, x + r, y, r);
+        ctx.closePath();
       }
-      ctx.restore();
 
       ctx.save();
-      ctx.font = "19px Arial";
-      ctx.fillStyle = "#111";
-      const ozn = ["1","2","3","4","5","6"];
-      const dx = [10, 10, -20, -20, -20, -16];
-      const dy = [2, 18, 18, -6, -12, -12];
-      for (let i = 0; i < pts.length; ++i) {
-        ctx.fillText(ozn[i], pts[i].x + dx[i], pts[i].y + dy[i]);
-      }
-      ctx.restore();
-    }
-
-    function getPointsPv(ox, oy, axisW, axisH) {
-      return [
-        { x: ox + axisW * 0.60, y: oy - axisH * 0.85 },
-        { x: ox + axisW * 0.78, y: oy - axisH * 0.12},
-        { x: ox + axisW * 0.15, y: oy - axisH * 0.12},
-        { x: ox + axisW * 0.15, y: oy - axisH * 0.85 },
-      ];
-    }
-    function drawDiagramPv(ctx) {
-      ctx.clearRect(0,0,520,340);
-      const ox = 60, oy = 270, axisW = 410, axisH = 200;
-      ctx.save();
-      ctx.strokeStyle = "#222";
-      ctx.lineWidth = 2.7;
       ctx.beginPath();
-      ctx.moveTo(ox, oy + 35);
-      ctx.lineTo(ox, oy - axisH - 20);
-      ctx.moveTo(ox - 35, oy);
-      ctx.lineTo(ox + axisW + 35, oy);
-      ctx.stroke();
-      ctx.beginPath();
-      ctx.moveTo(ox, oy - axisH - 20);
-      ctx.lineTo(ox - 8, oy - axisH - 4);
-      ctx.moveTo(ox, oy - axisH - 20);
-      ctx.lineTo(ox + 8, oy - axisH - 4);
-      ctx.moveTo(ox + axisW + 35, oy);
-      ctx.lineTo(ox + axisW + 19, oy - 8);
-      ctx.moveTo(ox + axisW + 35, oy);
-      ctx.lineTo(ox + axisW + 19, oy + 8);
-      ctx.stroke();
-      ctx.font = "bold 26px Arial";
-      ctx.fillStyle = "#222";
-      ctx.fillText("p", ox - 25, oy - axisH - 30);
-      ctx.fillText("v", ox + axisW + 29, oy + 28);
-      ctx.restore();
-
-      const pts = getPointsPv(ox, oy, axisW, axisH);
-      ctx.save();
-      ctx.lineWidth = 3.5;
-      ctx.strokeStyle = "#1791e5";
-      ctx.beginPath();
-      ctx.moveTo(pts[0].x, pts[0].y);
-      const controlX = (pts[0].x + pts[1].x) / 2 - 20;
-      const controlY = (pts[0].y + pts[1].y) / 2 + 20;
-      ctx.quadraticCurveTo(controlX, controlY, pts[1].x, pts[1].y);
-      for (let i = 2; i < pts.length; ++i) ctx.lineTo(pts[i].x, pts[i].y);
-      ctx.lineTo(pts[0].x, pts[0].y);
+      ctx.moveTo(downLineStartX, downLineStartY);
+      ctx.lineTo(connectX, connectY);
+      ctx.strokeStyle = lineColor;
+      ctx.lineWidth = lineWidth;
+      ctx.shadowColor = shadowColor;
+      ctx.shadowBlur = shadowBlur;
       ctx.stroke();
       ctx.restore();
 
       ctx.save();
-      ctx.fillStyle = "#111";
-      for (let i = 0; i < pts.length; ++i) {
-        ctx.beginPath();
-        ctx.arc(pts[i].x, pts[i].y, 5, 0, 2 * Math.PI);
-        ctx.fill();
-      }
+      ctx.shadowColor = (highlightedShape === 'roundedRect') ? "#fca326bb" : "#b7c7de";
+      ctx.shadowBlur = (highlightedShape === 'roundedRect') ? 20 : 7;
+      roundRectVertical(ctx, roundedRectX, roundedRectY, rectW, rectH, radius);
+      ctx.fillStyle = (highlightedShape === 'roundedRect') ? "#fff2dc" : "#e9f3fa";
+      ctx.fill();
+      ctx.shadowBlur = 0;
+      ctx.lineWidth = 3.2;
+      ctx.strokeStyle = (highlightedShape === 'roundedRect') ? "#fca326" : "#639ad3";
+      ctx.stroke();
       ctx.restore();
 
       ctx.save();
-      ctx.font = "19px Arial";
-      ctx.fillStyle = "#111";
-      const ozn = ["1","2","3","4"];
-      const dx = [10, 10, -27, -25];
-      const dy = [-6, 15, 15, -6];
-      for (let i = 0; i < pts.length; ++i) {
-        ctx.fillText(ozn[i], pts[i].x + dx[i], pts[i].y + dy[i]);
-      }
+      ctx.font = "bold 32px Arial";
+      ctx.fillStyle = "#15376e";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.globalAlpha = 0.82;
+      ctx.fillText("S", roundedRectX + rectW/2, roundedRectY + rectH/2);
+      ctx.globalAlpha = 1;
+      ctx.restore();
+
+      const verticalPiece = 30;
+      const joinY = circleBottomY + 52;
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(roundedRectMidBottomX, roundedRectMidBottomY);
+      ctx.lineTo(roundedRectMidBottomX, roundedRectMidBottomY + verticalPiece);
+      ctx.lineTo(circleCenterX, roundedRectMidBottomY + verticalPiece);
+      ctx.lineTo(circleCenterX, joinY);
+      ctx.strokeStyle = lineColor;
+      ctx.lineWidth = lineWidth;
+      ctx.shadowColor = shadowColor;
+      ctx.shadowBlur = shadowBlur;
+      ctx.lineJoin = "round";
+      ctx.stroke();
+      ctx.restore();
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(leftRectMidBottomX, leftRectMidBottomY);
+      ctx.lineTo(leftRectMidBottomX, leftRectMidBottomY + 88);
+      ctx.strokeStyle = lineColor;
+      ctx.lineWidth = lineWidth;
+      ctx.shadowColor = shadowColor;
+      ctx.shadowBlur = shadowBlur;
+      ctx.stroke();
+      ctx.restore();
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(circleCenterX, circleCenterY, circleRadius, 0, 2 * Math.PI);
+      ctx.fillStyle = (highlightedShape === 'circle1') ? "#fff2dc" : "#f3fafd";
+      ctx.shadowColor = (highlightedShape === 'circle1') ? "#fca326bb" : "#b7c7de";
+      ctx.shadowBlur = (highlightedShape === 'circle1') ? 22 : 7;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+      ctx.lineWidth = 3.2;
+      ctx.strokeStyle = (highlightedShape === 'circle1') ? "#fca326" : "#639ad3";
+      ctx.stroke();
+      ctx.restore();
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(circleCenterX, circleCenterY + 14);
+      ctx.lineTo(circleCenterX, circleCenterY - 12);
+      ctx.moveTo(circleCenterX - 8, circleCenterY - 4);
+      ctx.lineTo(circleCenterX, circleCenterY - 20);
+      ctx.lineTo(circleCenterX + 8, circleCenterY - 4);
+      ctx.strokeStyle = "#2682c1";
+      ctx.lineWidth = 3.2;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.stroke();
+      ctx.restore();
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(circleCenterX, circleBottomY);
+      ctx.lineTo(circleCenterX, circleBottomY + circleLineLen);
+      ctx.strokeStyle = lineColor;
+      ctx.lineWidth = lineWidth;
+      ctx.shadowColor = shadowColor;
+      ctx.shadowBlur = shadowBlur;
+      ctx.stroke();
+      ctx.restore();
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(middleRightX, middleRightY);
+      ctx.lineTo(middleRightX + sideLineLen, middleRightY);
+      ctx.strokeStyle = lineColor;
+      ctx.lineWidth = lineWidth;
+      ctx.shadowColor = shadowColor;
+      ctx.shadowBlur = shadowBlur;
+      ctx.stroke();
+      ctx.restore();
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(circle2CenterX, circle2CenterY, circleRadius, 0, 2 * Math.PI);
+      ctx.fillStyle = (highlightedShape === 'circle2') ? "#fff2dc" : "#f3fafd";
+      ctx.shadowBlur = 0; 
+      ctx.fill();
+      ctx.shadowBlur = 0;
+      ctx.lineWidth = 3.2;
+      ctx.strokeStyle = (highlightedShape === 'circle2') ? "#fca326" : "#639ad3";
+      ctx.stroke();
+      ctx.restore();
+
+      ctx.save();
+      ctx.font = "bold 32px Arial";
+      ctx.fillStyle = "#15376e";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.globalAlpha = 0.82;
+      ctx.fillText("G", circle2CenterX, circle2CenterY);
+      ctx.globalAlpha = 1;
+      ctx.restore();
+
+      const circle2TopX = circle2CenterX;
+      const circle2TopY = circle2CenterY - circleRadius;
+      const verticalLineLength = 60;
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(circle2TopX, circle2TopY);
+      ctx.lineTo(circle2TopX, circle2TopY - verticalLineLength);
+      ctx.strokeStyle = lineColor;
+      ctx.lineWidth = lineWidth;
+      ctx.shadowColor = shadowColor;
+      ctx.shadowBlur = shadowBlur;
+      ctx.stroke();
+      ctx.restore();
+
+      const horizontalStartX = circle2TopX - 10;
+      const horizontalEndX = circle2TopX + 10;
+      const horizontalY = circle2TopY - verticalLineLength;
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(horizontalStartX, horizontalY);
+      ctx.lineTo(horizontalEndX, horizontalY);
+      ctx.strokeStyle = lineColor;
+      ctx.lineWidth = lineWidth;
+      ctx.shadowColor = shadowColor;
+      ctx.shadowBlur = shadowBlur;
+      ctx.stroke();
+      ctx.restore();
+      const parallelY = horizontalY + 16;
+      const parallelStartX = circle2TopX - 18;
+      const parallelEndX = circle2TopX + 18;
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(parallelStartX, parallelY);
+      ctx.lineTo(parallelEndX, parallelY);
+      ctx.strokeStyle = lineColor;
+      ctx.lineWidth = lineWidth;
+      ctx.shadowColor = shadowColor;
+      ctx.shadowBlur = shadowBlur;
+      ctx.stroke();
+      ctx.restore();
+      const parallel2Y = parallelY + 16;
+      const parallel2StartX = circle2TopX - 28;
+      const parallel2EndX = circle2TopX + 28;
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(parallel2StartX, parallel2Y);
+      ctx.lineTo(parallel2EndX, parallel2Y);
+      ctx.strokeStyle = lineColor;
+      ctx.lineWidth = lineWidth;
+      ctx.shadowColor = shadowColor;
+      ctx.shadowBlur = shadowBlur;
+      ctx.stroke();
+      ctx.restore();
+      const rightRectX = roundedRectX + rectW;
+      const bottomRectY = roundedRectY + rectH;
+      const height2_6 = (2/6) * rectH;
+      const height4_6 = (4/6) * rectH;
+
+      const line1Y = bottomRectY - height2_6;
+      const line2Y = bottomRectY - height4_6;
+
+      const lineLength = 50;
+      drawArrowOnLineReverse(ctx, rightRectX, line2Y, rightRectX + lineLength, line2Y, 13, Math.PI/7, lineColor, lineWidth);
+      drawArrowOnLine(ctx, rightRectX, line1Y, rightRectX + lineLength, line1Y, 13, Math.PI/7, lineColor, lineWidth);
+
+      ctx.save();
+      ctx.font = "bold 24px Arial";
+      ctx.fillStyle = "#1d2950";
+      ctx.shadowColor = "#fff";
+      ctx.shadowBlur = 0;
+      ctx.textAlign = "left";
+      ctx.textBaseline = "middle";
+      ctx.fillText("t₂", rightRectX + lineLength + 8, line2Y);
+      ctx.fillText("t₁", rightRectX + lineLength + 8, line1Y);
+      ctx.restore();
+
+      ctx.setTransform(1,0,0,1,0,0);
+    }
+
+    function drawArrowOnLine(ctx, x1, y1, x2, y2, arrowLength, arrowAngle, color, width) {
+      ctx.save();
+      ctx.strokeStyle = color;
+      ctx.lineWidth = width;
+      ctx.shadowColor = "#b7c7de";
+      ctx.shadowBlur = 2.5;
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
+      const angle = Math.atan2(y2 - y1, x2 - x1);
+      ctx.beginPath();
+      ctx.moveTo(x2, y2);
+      ctx.lineTo(
+        x2 - arrowLength * Math.cos(angle - arrowAngle),
+        y2 - arrowLength * Math.sin(angle - arrowAngle)
+      );
+      ctx.moveTo(x2, y2);
+      ctx.lineTo(
+        x2 - arrowLength * Math.cos(angle + arrowAngle),
+        y2 - arrowLength * Math.sin(angle + arrowAngle)
+      );
+      ctx.stroke();
+      ctx.restore();
+    }
+    function drawArrowOnLineReverse(ctx, x1, y1, x2, y2, arrowLength, arrowAngle, color, width) {
+      ctx.save();
+      ctx.strokeStyle = color;
+      ctx.lineWidth = width;
+      ctx.shadowColor = "#b7c7de";
+      ctx.shadowBlur = 2.5;
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
+      const angle = Math.atan2(y2 - y1, x2 - x1);
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(
+        x1 + arrowLength * Math.cos(angle - arrowAngle),
+        y1 + arrowLength * Math.sin(angle - arrowAngle)
+      );
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(
+        x1 + arrowLength * Math.cos(angle + arrowAngle),
+        y1 + arrowLength * Math.sin(angle + arrowAngle)
+      );
+      ctx.stroke();
       ctx.restore();
     }
 
-    function showPlot(which) {
-      document.getElementById('btnTs').classList.toggle('active', which === 'Ts');
-      document.getElementById('btnPv').classList.toggle('active', which === 'Pv');
-      document.getElementById('boxTs').classList.toggle('active', which === 'Ts');
-      document.getElementById('boxPv').classList.toggle('active', which === 'Pv');
-      const textCol = document.getElementById('textCol');
-      if (which === 'Ts') {
-        textCol.innerHTML = `
-          <ul style="list-style-type: none; text-align:left; display:inline-block; padding-left:0;">
-            <li class="desc-li">- Odcinek 1–2: Rozprężanie izentropowe – entropia stała, spadek temperatury (turbinia).</li>
-            <li class="desc-li">- Odcinek 2–3: Skraplanie izobaryczne – spadek temperatury przy stałym ciśnieniu (skraplacz).</li>
-            <li class="desc-li">- Odcinek 3–4: Sprężanie izentropowe – wzrost ciśnienia i temperatury przy stałej entropii (pompa).</li>
-            <li class="desc-li">- Odcinek 4–5: Ogrzewanie izobaryczne – wzrost temperatury przy stałym ciśnieniu (kocioł/parownik).</li>
-            <li class="desc-li">- Odcinek 5–6: Przegrzewanie pary – dalszy wzrost temperatury przy stałym ciśnieniu.</li>
-            <li class="desc-li">- Odcinek 6–1: Rozprężanie izobaryczne – powrót do punktu początkowego.</li>
-          </ul>
-        `;
+    function showInfo(msg, whichShape) {
+      const box = document.getElementById('infoBox');
+      const backdrop = document.getElementById('infoBackdrop');
+      const msgSpan = document.getElementById('infoMsg');
+      msgSpan.textContent = msg;
+      if(window.innerWidth < 700) {
+        box.classList.add('visible');
+        backdrop.classList.add('visible');
+        document.body.style.overflow = "hidden";
       } else {
-        textCol.innerHTML = `
-          <ul style="list-style-type: none; text-align:left; display:inline-block; padding-left:0;">
-            <li class="desc-li">- Odcinek 1–2: Rozprężanie izentropowe – spadek ciśnienia i wzrost objętości (turbina).</li>
-            <li class="desc-li">- Odcinek 2–3: Skraplanie izobaryczne – zmniejszenie objętości przy stałym ciśnieniu (skraplacz).</li>
-            <li class="desc-li">- Odcinek 3–4: Sprężanie izentropowe – wzrost ciśnienia i spadek objętości (pompa).</li>
-            <li class="desc-li">- Odcinek 4–1: Ogrzewanie izobaryczne – wzrost objętości przy stałym ciśnieniu (kocioł).</li>
-          </ul>
-        `;
+        box.classList.remove('visible');
+        backdrop.classList.remove('visible');
+        document.body.style.overflow = "";
+        box.style.display = 'block';
       }
+      box.style.opacity = '0.97';
+      highlightedShape = whichShape;
+      drawAll();
+      setTimeout(() => {
+        if (window.innerWidth < 700) {
+          box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 20);
     }
 
-    function resizeCanvases() {
-      const canvasBoxes = document.querySelectorAll('.canvas-box');
-      canvasBoxes.forEach(box => {
-        const canvas = box.querySelector('canvas');
-        let width = box.offsetWidth;
-        let height = box.offsetHeight;
-        if (width < 100) width = 320;
-        if (height < 100) height = 170;
-        canvas.width = width;
-        canvas.height = height;
-        if (canvas.id === "canvasTs") drawDiagramTs(canvas.getContext('2d'));
-        if (canvas.id === "canvasPv") drawDiagramPv(canvas.getContext('2d'));
-      });
+    function hideInfoBox() {
+      const box = document.getElementById('infoBox');
+      const backdrop = document.getElementById('infoBackdrop');
+      box.classList.remove('visible');
+      backdrop.classList.remove('visible');
+      box.style.display = 'none';
+      document.body.style.overflow = "";
+      highlightedShape = null;
+      drawAll();
     }
 
-    window.addEventListener('resize', resizeCanvases);
-    window.addEventListener('orientationchange', resizeCanvases);
+    document.getElementById('infoClose').onclick = hideInfoBox;
+    document.getElementById('infoBackdrop').onclick = hideInfoBox;
 
-    drawDiagramTs(document.getElementById('canvasTs').getContext('2d'));
-    drawDiagramPv(document.getElementById('canvasPv').getContext('2d'));
+    canvas.addEventListener('click', function(e) {
+      const rawScale = Math.min(canvas.offsetWidth / BASE_W, canvas.offsetHeight / BASE_H);
+      const scale = rawScale * DRAWING_SCALE;
+      const drawingW = BASE_W * scale, drawingH = BASE_H * scale;
+      const offLeft = (canvas.offsetWidth - drawingW) / 2 + DRAWING_OFFSET_X * scale;
+      const offTop = (canvas.offsetHeight - drawingH) / 2 + DRAWING_OFFSET_Y * scale;
+      const rect = canvas.getBoundingClientRect();
+      const x = (e.clientX - rect.left - offLeft) / scale;
+      const y = (e.clientY - rect.top  - offTop ) / scale;
 
-    setTimeout(resizeCanvases, 90);
+      if (x >= rectX && x <= rectX + rectWidth && y >= rectY && y <= rectY + rectHeight) {
+        showInfo('Kocioł(K): Parownik dostarcza ciepło do cieczy pod wysokim ciśnieniem, powodując jej odparowanie. W wyniku tego procesu woda zamienia się w parę nasyconą lub przegrzaną. Funkcją kotła jest więc przemiana energii cieplnej paliwa w energię wewnętrzną pary wodnej.', 'leftRect');
+        return;
+      }
+      function pointInTrapezoid(px, py, A, B, C, D) {
+        let poly = [A, B, C, D];
+        let inside = false;
+        for(let i=0,j=3;i<4;j=i++) {
+          let xi=poly[i].x, yi=poly[i].y, xj=poly[j].x, yj=poly[j].y;
+          if(((yi>py)!=(yj>py)) && (px < (xj-xi)*(py-yi)/(yj-yi)+xi)) inside = !inside;
+        }
+        return inside;
+      }
+      if (pointInTrapezoid(x, y, A, B, C, D)) {
+        showInfo('Turbina(T): W turbinie para wodna rozpręża się, oddając swoją energię wewnętrzną w postaci pracy mechanicznej. Ta praca napędza wał turbiny połączony z generatorem. Funkcją turbiny jest więc zamiana energii cieplnej pary na energię mechaniczną.', 'trapezoid');
+        return;
+      }
+      const distCircle1 = Math.sqrt((x - circleCenterX)**2 + (y - circleCenterY)**2);
+      if (distCircle1 <= circleRadius) {
+        showInfo('Pompa: Funkcją pompy jest zwiększenie ciśnienia cieczy (wody) wypływającej ze skraplacza. Dzięki temu woda może zostać wtłoczona do kotła, gdzie będzie podgrzewana. Pompa zużywa niewielką ilość energii mechanicznej w porównaniu do energii uzyskiwanej w turbinie.', 'circle1');
+        return;
+      }
+      const distCircle2 = Math.sqrt((x - circle2CenterX)**2 + (y - circle2CenterY)**2);
+      if (distCircle2 <= circleRadius) {
+        showInfo('Generator(G): Generator przekształca pracę mechaniczną wału turbiny w energię elektryczną. Funkcją generatora jest produkcja prądu elektrycznego, który trafia do sieci elektroenergetycznej.', 'circle2');
+        return;
+      }
+      function pointInRoundedRect(px, py, rx, ry, rw, rh, r) {
+        if (px >= rx + r && px <= rx + rw - r && py >= ry && py <= ry + rh) return true;
+        if (px >= rx && px <= rx + rw && py >= ry + r && py <= ry + rh - r) return true;
+        let corners = [
+          {cx: rx + r, cy: ry + r},
+          {cx: rx + rw - r, cy: ry + r},
+          {cx: rx + r, cy: ry + rh - r},
+          {cx: rx + rw - r, cy: ry + rh - r}
+        ];
+        for(let c of corners)
+          if(Math.sqrt((px-c.cx)**2+(py-c.cy)**2)<=r)return true;
+        return false;
+      }
+      if(pointInRoundedRect(x, y, roundedRectX, roundedRectY, rectW, rectH, radius)) {
+        showInfo('Skraplacz(S): Skraplacz odbiera ciepło od pary wodnej wypływającej z turbiny, powodując jej kondensację do stanu ciekłego. Dzięki temu para zamienia się w wodę, którą można ponownie wtłoczyć do obiegu. Funkcją skraplacza jest więc obniżenie temperatury i ciśnienia pary oraz umożliwienie jej ponownego użycia.', 'roundedRect');
+        return;
+      }
+    });
+
+    function fitCanvas() {
+      const box = document.querySelector('.canvas-box');
+      const w = box.offsetWidth;
+      box.style.height = (w/15*9) + "px";
+      canvas.width = box.offsetWidth;
+      canvas.height = box.offsetHeight;
+      drawAll();
+    }
+    window.addEventListener('resize', fitCanvas);
+    window.addEventListener('orientationchange', fitCanvas);
+    fitCanvas();
   </script>
-  <div class="comic-footer">
-    Źródło: <a href="https://www.electrical4u.com/rankine-cycle-efficiency-improvement-techniques/" target="_blank" rel="noopener">https://www.electrical4u.com/rankine-cycle-efficiency-improvement-techniques/</a>
-  </div>
 </body>
 </html>
