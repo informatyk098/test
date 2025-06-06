@@ -35,6 +35,7 @@
       text-align: center;
       letter-spacing: 1px;
       width: 100vw;
+      font-size: 2em;
     }
     .timeline-canvas-box {
       background: transparent;
@@ -58,9 +59,10 @@
       margin: 0 auto;
       width: 100vw;
       max-width: 100vw;
-      height: 900px;
-      min-width: 700px;
-      min-height: 600px;
+      height: 950px;
+      min-width: 320px;
+      min-height: 800px;
+      touch-action: pan-x pan-y;
     }
     .timeline-footer {
       width: 100vw;
@@ -79,24 +81,39 @@
     @media (max-width: 900px) {
       #timelineCanvas {
         width: 100vw;
-        min-width: 700px;
-        height: 1200px;
-        min-height: 800px;
-      }
-      .timeline-canvas-box {
-        min-height: 600px;
-      }
-    }
-    @media (max-width: 700px) {
-      #timelineCanvas {
-        width: 100vw;
-        min-width: 500px;
-        height: 1600px;
-        min-height: 1000px;
+        min-width: 320px;
+        height: 1300px;
+        min-height: 900px;
       }
       .timeline-canvas-box {
         min-height: 900px;
       }
+      h1 { font-size: 1.25em; }
+    }
+    @media (max-width: 700px) {
+      #timelineCanvas {
+        width: 100vw;
+        min-width: 320px;
+        height: 1900px;
+        min-height: 1200px;
+      }
+      .timeline-canvas-box {
+        min-height: 1200px;
+      }
+      h1 { font-size: 1.08em; }
+    }
+    @media (max-width: 480px) {
+      #timelineCanvas {
+        min-width: 0;
+        width: 98vw;
+        max-width: 100vw;
+        min-height: 1600px;
+        height: 1750px;
+      }
+      .timeline-canvas-box {
+        min-height: 1350px;
+      }
+      h1 { font-size: 0.96em; margin-top: 22px; }
     }
   </style>
 </head>
@@ -143,20 +160,24 @@
     let waitAfterEvent = 0;
 
     function getCanvasSizes() {
-      const w = window.innerWidth;
-      let minW = 700;
-      let height = 900; 
+      const w = canvas.parentElement.offsetWidth || window.innerWidth;
+      let minW = 320;
+      let height = 950;
       if (w < 900) {
-        minW = 500;
-        height = 1200;
+        minW = 320;
+        height = 1300;
       }
       if (w < 700) {
-        minW = 500;
-        height = 1600;
+        minW = 320;
+        height = 1900;
+      }
+      if (w < 480) {
+        minW = 0;
+        height = 1750;
       }
       const eventsCount = events.length;
-      height = Math.max(height, eventsCount * (window.innerWidth < 700 ? 52 : 28) + 100);
-      return { width: Math.max(window.innerWidth, minW), height };
+      height = Math.max(height, eventsCount * (w < 700 ? 90 : 56) + 100);
+      return { width: Math.max(w, minW), height };
     }
 
     function drawTimeline(glowAlphas, lightedIdx, mainPhase, branchPhase, runningToBranch) {
@@ -165,7 +186,8 @@
       canvas.height = height;
       ctx.clearRect(0,0,canvas.width,canvas.height);
 
-      const marginX = width < 700 ? 130 : 220;
+      const isMobile = width < 701;
+      const marginX = isMobile ? 36 : 110;
       const x = Math.floor(canvas.width / 2);
       const startY = 65;
       const endY = canvas.height - 50;
@@ -183,11 +205,11 @@
       const N = events.length;
       const gap = (endY - startY) / (N-1);
 
-      let dateFont = width < 700 ? "bold 14px Arial" : "bold 17px Arial";
-      let descFont = width < 700 ? "13px Arial" : "15px Arial";
-      let circleR = width < 700 ? 11 : 13;
-      let lineW = width < 700 ? 2.2 : 3.2;
-      let dotBorder = width < 700 ? 3 : 4;
+      let dateFont = isMobile ? "bold 14px Arial" : "bold 17px Arial";
+      let descFont = isMobile ? "13px Arial" : "15px Arial";
+      let circleR = isMobile ? 14 : 13;
+      let lineW = isMobile ? 2.2 : 3.2;
+      let dotBorder = isMobile ? 3 : 4;
 
       let activeMainY =
         mainPhase < 1
@@ -195,11 +217,11 @@
           : endY;
 
       ctx.save();
+      ctx.beginPath();
       let grad = ctx.createRadialGradient(x, activeMainY, 0, x, activeMainY, 19);
       grad.addColorStop(0, "rgba(255,255,180,0.93)");
       grad.addColorStop(0.4, "rgba(252,163,38,0.62)");
       grad.addColorStop(1, "rgba(255,255,180,0)");
-      ctx.beginPath();
       ctx.arc(x, activeMainY, 19, 0, 2*Math.PI);
       ctx.globalAlpha = 0.7;
       ctx.fillStyle = grad;
@@ -217,9 +239,8 @@
 
       for (let i = 0; i < N; ++i) {
         const cy = Math.floor(startY + i * gap);
-        const isLeft = i % 2 === 0;
+        const isLeft = isMobile ? false : i % 2 === 0;
         const px = isLeft ? x - marginX : x + marginX;
-
         ctx.save();
         ctx.beginPath();
         ctx.moveTo(x, cy);
@@ -317,7 +338,7 @@
         ctx.fillStyle = "#fca326";
         ctx.textAlign = isLeft ? "right" : "left";
         ctx.textBaseline = "middle";
-        const dateX = isLeft ? px-38 : px+38;
+        const dateX = isLeft ? px-28 : px+28;
         ctx.fillText(events[i].date, dateX, cy-17);
         ctx.restore();
 
@@ -326,9 +347,9 @@
         ctx.fillStyle = "#f8fafc";
         ctx.textAlign = isLeft ? "right" : "left";
         ctx.textBaseline = "middle";
-        const descX = isLeft ? px-38 : px+38;
-        const descW = Math.min(canvas.width/2 - marginX - 24, 480, width/2 - marginX - 30);
-        wrapText(ctx, events[i].label, descX, cy+13, descW, width < 700 ? 17 : 21, isLeft ? "right":"left");
+        const descX = isLeft ? px-28 : px+28;
+        const descW = Math.min(canvas.width/2 - marginX - 10, 400, width/2 - marginX - 18);
+        wrapText(ctx, events[i].label, descX, cy+13, descW, isMobile ? 17 : 20, isLeft ? "right":"left");
         ctx.restore();
       }
     }
